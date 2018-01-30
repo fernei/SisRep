@@ -1,0 +1,132 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+
+	<ui:define name="content">
+		<h1 class="aw-page-title">Lista de Moradores</h1>
+
+
+		<h:form id="form">
+
+			<p:growl id="msgs" showDetail="true" />
+
+			<p:dataTable id="cars1" var="car" value="#{dtEditView.cars1}"
+				editable="true" style="margin-bottom:20px">
+				<f:facet name="header">
+					Row Editing
+				</f:facet>
+				<p:ajax event="rowEdit" listener="#{dtEditView.onRowEdit}"
+					update=":form:msgs" />
+				<p:ajax event="rowEditCancel" listener="#{dtEditView.onRowCancel}"
+					update=":form:msgs" />
+
+				<p:column headerText="Id">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{car.id}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="modelInput" value="#{car.id}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Year">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{car.year}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{car.year}" style="width:100%" label="Year" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Brand">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{car.brand}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:selectOneMenu value="#{car.brand}" style="width:100%">
+								<f:selectItems value="#{dtEditView.brands}" var="man"
+									itemLabel="#{man}" itemValue="#{man}" />
+							</h:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Color">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{car.color}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:selectOneMenu value="#{car.color}" style="width:100%">
+								<f:selectItems value="#{dtEditView.colors}" var="color"
+									itemLabel="#{color}" itemValue="#{color}" />
+							</h:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<!-- <p:column style="width:32px">
+					<p:rowEditor />
+				</p:column> -->
+
+				<p:column style="width:32px">
+					<p:commandButton update="dlgForm:display"
+						onclick="carDialog.show()" image="ui-icon ui-icon-search">
+						<!-- <f:setPropertyActionListener value="{car}"
+							target="{tableBean.selectedCar}" /> -->
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+
+			<!-- <p:contextMenu for="cars2" widgetVar="cMenu">
+				<p:menuitem value="Edit Cell" icon="ui-icon-search"
+					onclick="PF('cellCars').showCellEditor();return false;" />
+				<p:menuitem value="Hide Menu" icon="ui-icon-close"
+					onclick="PF('cMenu').hide()" />
+			</p:contextMenu> -->
+
+		</h:form>
+
+		<p:dialog header="Car Detail" widgetVar="carDialog" resizable="false"
+			width="200" showEffect="explode" hideEffect="explode">
+			<h:form id="dlgForm">
+
+
+				<h:panelGrid id="display" columns="2" cellpadding="4">
+
+					<f:facet name="header">
+						<p:graphicImage
+							value="/images/cars/{tableBean.selectedCar.manufacturer}.jpg" />
+					</f:facet>
+
+					<h:outputText value="Model:" />
+					<h:inputText value="{tableBean.selectedCar.model}" />
+
+					<h:outputText value="Year:" />
+					<h:inputText value="{tableBean.selectedCar.year}" />
+
+					<h:outputText value="Manufacturer:" />
+					<h:inputText value="{tableBean.selectedCar.manufacturer}" />
+
+					<h:outputText value="Color:" />
+					<h:inputText value="{tableBean.selectedCar.color}" />
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+
+
+
+	</ui:define>
+
+</ui:composition>
