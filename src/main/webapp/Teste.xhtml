@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+
+	<ui:define name="content">
+		<h1 class="aw-page-title">TESTE</h1>
+
+		<h:body>
+		
+			<h:form id="tableForm">
+
+				<p:dataTable id="carTable" var="car" value="#{dtEditView.cars1}"
+					paginator="true" rows="10">
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Model" />
+						</f:facet>
+						<h:outputText value="#{car.id}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Year" />
+						</f:facet>
+						<h:outputText value="#{car.year}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Manufacturer" />
+						</f:facet>
+						<h:outputText value="#{car.brand}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Color" />
+						</f:facet>
+						<h:outputText value="#{car.color}" />
+					</p:column>
+
+					<p:column style="width:32px">
+						<p:commandButton update="dlgForm:display"
+							oncomplete="carDialog.show()" image="ui-icon ui-icon-search">
+							<f:setPropertyActionListener value="#{car}"
+								target="#{tableBean.selectedCar}" />
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
+
+
+			<p:dialog header="Car Detail" widgetVar="carDialog" resizable="false"
+				width="200" showEffect="explode" hideEffect="explode">
+				<h:form id="dlgForm">
+
+
+					<h:panelGrid id="display" columns="2" cellpadding="4">
+
+						<f:facet name="header">
+							<!-- <p:graphicImage value="/images/cars/#{tableBean.selectedCar.manufacturer}.jpg" /> -->
+						</f:facet>
+
+						<h:outputText value="Model:" />
+						<h:inputText value="#{car.id}" />
+
+						<!-- <h:outputText value="Year:" />
+						<h:inputText value="#{tableBean.selectedCar.year}" />
+
+						<h:outputText value="Manufacturer:" />
+						<h:inputText value="#{tableBean.selectedCar.manufacturer}" />
+
+						<h:outputText value="Color:" />
+						<h:inputText value="#{tableBean.selectedCar.color}" />
+ -->					</h:panelGrid>
+					<p:commandButton value="save" action="#{tableBean.save}"
+						update="tableForm:carTable" oncomplete="carDialog.hide()" />
+				</h:form>
+			</p:dialog>
+		</h:body>
+	</ui:define>
+
+</ui:composition>
